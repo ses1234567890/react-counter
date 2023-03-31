@@ -5,15 +5,10 @@ import PropTypes from "prop-types";
 
 // include your styles into the webpack bundle
 import "../styles/index.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
-import { ProgressPlugin } from "webpack";
 
 function SimpleCounter(props) {
-  return <div className="bigCounter">
-      <div className="clock">
-        <FontAwesomeIcon icon={faClock} />
-      </div>
+  return (
+    <div className="bigCounter">
       <div className="seconds-6">{props.digitSix % 10}</div>
       <div className="seconds-5">{props.digitFive % 10}</div>
       <div className="seconds-4">{props.digitFour % 10}</div>
@@ -21,6 +16,7 @@ function SimpleCounter(props) {
       <div className="seconds-2">{props.digitTwo % 10}</div>
       <div className="seconds-1">{props.digitOne % 10}</div>
     </div>
+  );
 }
 
 SimpleCounter.propTypes = {
@@ -33,19 +29,32 @@ SimpleCounter.propTypes = {
 };
 
 let counter = 0;
-setInterval(function () {
-  const six = Math.floor(counter / 100000);
-  const five = Math.floor(counter / 10000);
-  const four = Math.floor(counter / 1000);
-  const three = Math.floor(counter / 100);
-  const two = Math.floor(counter / 10);
-  const one = Math.floor(counter / 1);
-  console.log(six, five, four, three, two, one)
-  counter++;
-  //render your react application
-}, 1000);
+let six = 0,
+  five = 0,
+  four = 0,
+  three = 0,
+  two = 0,
+  one = 0;
 
-ReactDOM.render(
-  <SimpleCounter digitOne={one} digitTwo={two} digitThree={three} digitFour={four} digitFive={five} digitSix={six} />,
-  document.querySelector("#app")
-);
+setInterval(function () {
+  six = Math.floor(counter / 100000) % 10;
+  five = Math.floor(counter / 10000) % 10;
+  four = Math.floor(counter / 1000) % 10;
+  three = Math.floor(counter / 100) % 10;
+  two = Math.floor(counter / 10) % 10;
+  one = Math.floor(counter / 1) % 10;
+  console.log(six, five, four, three, two, one);
+  counter++;
+
+  ReactDOM.render(
+    <SimpleCounter
+      digitOne={one}
+      digitTwo={two}
+      digitThree={three}
+      digitFour={four}
+      digitFive={five}
+      digitSix={six}
+    />,
+    document.querySelector("#app")
+  );
+}, 1000);
